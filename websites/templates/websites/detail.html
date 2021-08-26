@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+    </head>
+    <body>
+        Website
+        <table>
+            <tr>
+                <th>URL</th>
+                <th>Title</th>
+                <th>Meta description</th>
+                <th>Alexa rank</th>
+                <th>Category</th>
+                <th>Date added</th>
+                <th>Date updated</th>
+            </tr>
+            <tr>
+                <td>{{ object.url }}</td>
+                <td>{{ object.title }}</td>
+                <td>{{ object.meta_description }}</td>
+                <td>{{ object.alexa_rank }}</td>
+                <td>{{ object.category.name }}</td>
+                <td>{{ object.date_added }}</td>
+                <td>{{ object.date_updated }}</td>
+            </tr>
+        </table>
+
+        <div>Category</div>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Count</th>
+
+            </tr>
+            <tr>
+                <td>{{ category.name }}</td>
+                <td>{{ category.description }}</td>
+                <td>{{ category.count }}</td>
+            </tr>
+        </table>
+
+        <div>Webpages</div>
+        <table>
+            <tr>
+                <th>URL</th>
+                <th>Title</th>
+                <th>Meta description</th>
+            </tr>
+            {% for webpage in webpages %}
+            <tr>
+                <td>{{ webpage.URL }}</td>
+                <td>{{ webpage.title }}</td>
+                <td>{{ webpage.meta_description }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No data</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

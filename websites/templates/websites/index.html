@@ -1,0 +1,76 @@
+{% load url_params %}
+<html>
+    <head>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+    </head>
+    <body>
+        <form method="GET" action="{% url 'websites:website-list' %}">
+            <label for="categories">Choose a category:</label>
+
+            <select name="categories" id="categories">
+                <option value="all">All</option>
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Show</button>
+        </form>
+
+        <table>
+            <tr>
+                <th><a href="?sort=url">URL</a></th>
+                <th><a href="?sort=title">Title</a></th>
+                <th><a href="?sort=meta_description">Meta description</a></th>
+                <th><a href="?sort=alexa_rank">Alexa rank</a></th>
+                <th><a href="?sort=category__name">Category</a></th>
+                <th><a href="?sort=date_added">Date added</a></th>
+                <th><a href="?sort=date_updated">Date updated</a></th>
+            </tr>
+            {% for website in page_obj %}     
+            <tr>
+                <td>{{ website.url }}</td>
+                <td><a href="{% url 'websites:website-detail' website.id %}">{{ website.title }}</a></td>
+                <td>{{ website.meta_description }}</td>
+                <td>{{ website.alexa_rank }}</td>
+                <td>{{ website.category.name }}</td>
+                <td>{{ website.date_added }}</td>
+                <td>{{ website.date_updated }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?{% url_replace page=1 %}">&laquo; first</a>
+                    <a href="?{% url_replace page=page_obj.previous_page_number %}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?{% url_replace page=page_obj.next_page_number %}">next</a>
+                    <a href="?{% url_replace page=page_obj.paginator.num_pages %}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </body>
+</html>
